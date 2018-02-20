@@ -1,4 +1,4 @@
-@echo on
+@echo off
 
 set stereotool_licence=""
 set "sts_folder=%~sdp0."
@@ -103,8 +103,6 @@ set path=%~dp0;%path
   
   if not "%~n1"=="" goto :startprocess
 
-
-pause
 
   goto eob
 
