@@ -4,7 +4,7 @@ This is a Windows CLI script to process an audio track with a Stereotool preset 
 
 The script needs FFMPEG and Stereotool-Commandline installed in the same folder or its binary folders included in the Windows PATH environment variable.
 
-Download FFMPEG: https://www.ffmpeg.org/download.html
+Download FFMPEG: https://www.ffmpeg.org/download.html  
 Download StereoTool command line: https://www.stereotool.com/download/
 
 Example installation in a folder:  
