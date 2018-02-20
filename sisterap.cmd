@@ -1,7 +1,7 @@
-@echo off
+@echo on
 
 set stereotool_licence=""
-set "sts_folder=."
+set "sts_folder=%~sdp0."
 
 echo.
 echo Simple Stereotool Audio Processor (SISTERAP) 2018.02.20.1
@@ -79,6 +79,7 @@ set path=%~dp0;%path
   if "%stt_src_wav%"=="" set "stt_src_wav==%src_file%"
   
   if not %stereotool_licence%=="" set stereotool_licence=-k %stereotool_licence%
+  if %stereotool_licence%=="" set stereotool_licence=
   
   stereo_tool_cmd "%stt_src_wav%" "%temp_procwav%" -s %stereotool_cfg% %stereotool_licence%
   
@@ -101,6 +102,9 @@ set path=%~dp0;%path
   shift
   
   if not "%~n1"=="" goto :startprocess
+
+
+pause
 
   goto eob
 
