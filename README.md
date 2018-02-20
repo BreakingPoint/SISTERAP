@@ -14,7 +14,7 @@ If you have a key for StereoTool, enter it in the script in the line
 
     set stereotool_licence=""
 
-at the beginning of the script (between the quotation marks, like "<KEYVALUE>")
+at the beginning of the script (between the quotation marks, like `<KEYVALUE>`)
 
 If you have your presets in a different folder installed than the folder where the script is copied to, enter the folder in the line
 
