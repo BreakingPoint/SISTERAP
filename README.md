@@ -7,6 +7,9 @@ The script needs FFMPEG and Stereotool-Commandline installed in the same folder 
 Download FFMPEG: https://www.ffmpeg.org/download.html
 Download StereoTool command line: https://www.stereotool.com/download/
 
+Example installation in a folder:
+<img src="https://i.imgur.com/1v7O5c2.png">
+
 If you have a key for StereoTool, enter it in the script in the line
 
 set stereotool_licence=""
@@ -15,6 +18,6 @@ at the beginning of the script (between the quotation marks, like "<KEYVALUE>")
 
 If you have your presets in a different folder installed than the folder where the script is copied to, enter the folder in the line
 
-set "sts_folder=."
+set "sts_folder=%~sdp0."
 
-at the beginning of the script (replace "." with the folder name, like "c:\my\stereotool\preset\folder").
+at the beginning of the script (replace "%~sdp0." with the folder name, like "c:\my\stereotool\preset\folder").
