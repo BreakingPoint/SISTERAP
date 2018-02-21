@@ -1,6 +1,6 @@
 # SISTERAP - Simple Stereotool Audio Processor
 
-This is a Windows CLI script to process an audio track with a Stereotool preset and create a new video with the processed track as a replacement.
+This is a Windows CLI script to process an audio track with a Stereotool preset and create a new video with the processed track as a replacement (or just a WAV/MP3 of the processed track).
 
 The script needs FFMPEG and Stereotool-Commandline installed in the same folder or its binary folders included in the Windows PATH environment variable.
 
