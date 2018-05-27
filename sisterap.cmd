@@ -1,10 +1,10 @@
 @echo off
 
 set stereotool_licence=""
-set "sts_folder=%~sdp0."
+set "sts_folder=."
 
 echo.
-echo Simple Stereotool Audio Processor (SISTERAP) 2018.02.20.1
+echo Simple Stereotool Audio Processor (SISTERAP) 2018.05.27.1
   
 set path=%~dp0;%path
 
@@ -37,6 +37,9 @@ set path=%~dp0;%path
   set /p dest_type=^>
   if "%dest_type%"=="" set dest_type=V
 
+  set license_param=
+  if not %stereotool_licence%=="" set license_param=-k %stereotool_licence%
+  
   :startprocess
   
   set "src_file=%~dpnx1"
@@ -73,22 +76,19 @@ set path=%~dp0;%path
     set "temp_wav=%dest_file%.tmp.wav"
   )
 
-  if not "%temp_wav%"=="" ffmpeg -y -i "%src_file%" -vn -ac 2 "%temp_wav%"
+  if not "%temp_wav%"=="" ffmpeg -y -i "%src_file%" -vn -ac 2 -af "aresample=matrix_encoding=dplii" "%temp_wav%"
   
   set "stt_src_wav=%temp_wav%"
-  if "%stt_src_wav%"=="" set "stt_src_wav==%src_file%"
+  if "%stt_src_wav%"=="" set "stt_src_wav=%src_file%"
   
-  if not %stereotool_licence%=="" set stereotool_licence=-k %stereotool_licence%
-  if %stereotool_licence%=="" set stereotool_licence=
-  
-  stereo_tool_cmd "%stt_src_wav%" "%temp_procwav%" -s %stereotool_cfg% %stereotool_licence%
+  stereo_tool_cmd "%stt_src_wav%" "%temp_procwav%" -s %stereotool_cfg% %license_param%
   
   if not "%temp_wav%"=="" del "%temp_wav%"
 
   echo.
   
   if /i "%dest_type%"=="M" (
-     ffmpeg.exe -y -i "%temp_procwav%" -acodec libmp3lame -ac 2 -ab 320k -af "anull " -vn "%dest_file%"
+     ffmpeg.exe -y -i "%temp_procwav%" -acodec libmp3lame -ac 2 -aq 0 -af "anull " -vn "%dest_file%"
     del "%temp_procwav%"
   ) else (
     if /i "%dest_type%"=="W" ( 
@@ -102,7 +102,6 @@ set path=%~dp0;%path
   shift
   
   if not "%~n1"=="" goto :startprocess
-
 
   goto eob
 
