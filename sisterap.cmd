@@ -1,7 +1,7 @@
 @echo off
 
 set stereotool_licence=""
-set "sts_folder=."
+set "sts_folder=%~sdp0."
 
 echo.
 echo Simple Stereotool Audio Processor (SISTERAP) 2018.05.27.1
