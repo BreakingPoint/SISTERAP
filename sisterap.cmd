@@ -46,7 +46,9 @@ set path=%~dp0;%path
     echo.
     echo Destination:
     echo Replace audio track in source [V]ideo ^(default^)
-    echo [M]P3
+    echo [M]P3 HQ VBR
+    echo MP3 [1]28
+    echo MP3 [6]4 mono
     echo [W]AV
     set /p dest_type=^>
   )
@@ -72,13 +74,10 @@ set path=%~dp0;%path
   set /a fidx=0
   
   set "dest_ext=%~x1"
-  if /i "%dest_type%"=="M" ( 
-    set dest_ext=.mp3
-  ) else ( 
-    if /i "%dest_type%"=="W" ( 
-      set dest_ext=.wav
-    ) 
-  )   
+  if /i "%dest_type%"=="M" set dest_ext=.mp3
+  if /i "%dest_type%"=="1" set dest_ext=.mp3
+  if /i "%dest_type%"=="6" set dest_ext=.mp3
+  if /i "%dest_type%"=="W" set dest_ext=.wav
 
   :render_finalname
   
@@ -125,19 +124,33 @@ set path=%~dp0;%path
   if not "%temp_wav%"=="" del "%temp_wav%"
 
   echo.
-  
+
+  set do_default=1
+
   if /i "%dest_type%"=="M" (
-     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -ac 2 -aq 0 -af "anull " -vn "%dest_file%"
+     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -joint_stereo 1 -ac 2 -aq 0 -af "anull " -vn "%dest_file%"
     del "%temp_procwav%"
-  ) else (
-    if /i "%dest_type%"=="W" ( 
-      rem keep WAV
-    ) else (
-      "%~dp0ffmpeg.exe" -y -i "%src_file%" -i "%temp_procwav%" -map 1:0 -map 0:0 -strict -2 -acodec aac -ac 2 -ab 192k -bsf:a aac_adtstoasc -af "anull " -c:v copy "%dest_file%"
-      del "%temp_procwav%"
-    )
+    set do_default=
   )
-  
+  if /i "%dest_type%"=="1" (
+     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -joint_stereo 1 -compression_level 2 -ac 2 -ab 128k -af "anull " -vn "%dest_file%"
+    del "%temp_procwav%"
+    set do_default=
+  )
+  if /i "%dest_type%"=="6" (
+     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -ac 1 -compression_level 4 -ab 64k -af "anull " -vn "%dest_file%"
+    del "%temp_procwav%"
+    set do_default=
+  )
+  if /i "%dest_type%"=="W" ( 
+    rem keep WAV
+    set do_default=
+  )
+  if x%do_default%==x1 (
+    "%~dp0ffmpeg.exe" -y -i "%src_file%" -i "%temp_procwav%" -map 1:0 -map 0:0 -strict -2 -acodec aac -ac 2 -ab 192k -bsf:a aac_adtstoasc -af "anull " -c:v copy "%dest_file%"
+    del "%temp_procwav%"
+  )
+
   goto eob
 
 
