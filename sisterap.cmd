@@ -17,7 +17,7 @@ if "%~n1" == "#direct" (
 )
 
 echo.
-echo Simple Stereotool Audio Processor (SISTERAP) 2018.12.23.1
+echo Simple Stereotool Audio Processor (SISTERAP) 2018.12.25.1
   
 set path=%~dp0;%path
 
@@ -91,7 +91,7 @@ set path=%~dp0;%path
     title "%~n1"
     call :sub_processfile
   ) else (
-    start "" cmd /c %this_cmd% #direct %dest_type% %sts_idx_sel% "%~dpnx1" 
+    start "" /min cmd /c %this_cmd% #direct %dest_type% %sts_idx_sel% "%~dpnx1" 
   )
 
   shift
