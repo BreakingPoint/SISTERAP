@@ -17,7 +17,7 @@ if "%~n1" == "#direct" (
 )
 
 echo.
-echo Simple Stereotool Audio Processor (SISTERAP) 2018.12.25.1
+echo Simple Stereotool Audio Processor (SISTERAP) 2019.01.17.1
   
 set path=%~dp0;%path
 
@@ -128,17 +128,17 @@ set path=%~dp0;%path
   set do_default=1
 
   if /i "%dest_type%"=="M" (
-     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -joint_stereo 1 -ac 2 -aq 0 -af "anull " -vn "%dest_file%"
+     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -joint_stereo 1 -ac 2 -aq 0 -vn "%dest_file%"
     del "%temp_procwav%"
     set do_default=
   )
   if /i "%dest_type%"=="1" (
-     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -joint_stereo 1 -compression_level 2 -ac 2 -ab 128k -af "anull " -vn "%dest_file%"
+     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -joint_stereo 1 -compression_level 2 -ac 2 -ab 128k -vn "%dest_file%"
     del "%temp_procwav%"
     set do_default=
   )
   if /i "%dest_type%"=="6" (
-     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -ac 1 -compression_level 4 -ab 64k -af "anull " -vn "%dest_file%"
+     "%~dp0ffmpeg.exe" -y -i "%temp_procwav%" -acodec libmp3lame -ac 1 -compression_level 4 -ab 64k -af "aresample=rematrix_maxval=1.0" -vn "%dest_file%"
     del "%temp_procwav%"
     set do_default=
   )
@@ -147,7 +147,7 @@ set path=%~dp0;%path
     set do_default=
   )
   if x%do_default%==x1 (
-    "%~dp0ffmpeg.exe" -y -i "%src_file%" -i "%temp_procwav%" -map 1:0 -map 0:0 -strict -2 -acodec aac -ac 2 -ab 192k -bsf:a aac_adtstoasc -af "anull " -c:v copy "%dest_file%"
+    "%~dp0ffmpeg.exe" -y -i "%src_file%" -i "%temp_procwav%" -map 1:0 -map 0:0 -strict -2 -acodec aac -ac 2 -ab 192k -bsf:a aac_adtstoasc -c:v copy "%dest_file%"
     del "%temp_procwav%"
   )
 
