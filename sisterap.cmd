@@ -17,7 +17,7 @@ if "%~n1" == "#direct" (
 )
 
 echo.
-echo Simple Stereotool Audio Processor (SISTERAP) 2019.01.17.1
+echo Simple Stereotool Audio Processor (SISTERAP) 2019.04.06.1
   
 set path=%~dp0;%path
 
@@ -71,7 +71,6 @@ set path=%~dp0;%path
   
   set "src_file=%~dpnx1"
   set "src_type=%~x1"
-  set /a fidx=0
   
   set "dest_ext=%~x1"
   if /i "%dest_type%"=="M" set dest_ext=.mp3
@@ -79,13 +78,21 @@ set path=%~dp0;%path
   if /i "%dest_type%"=="6" set dest_ext=.mp3
   if /i "%dest_type%"=="W" set dest_ext=.wav
 
-  :render_finalname
+  set "dest_file=%~dpn1%dest_ext%"
+
+  if not exist "%dest_file%" goto after_render_filename
+
+  set /a fidx=0
+
+  :render_filename
   
   set /a fidx+=1
   
   set "dest_file=%~dpn1.processed.%fidx%%dest_ext%"
   
-  if exist "%dest_file%" goto render_finalname
+  if exist "%dest_file%" goto render_filename
+
+  :after_render_filename
 
   if /i %use_mt% == N (
     title "%~n1"
