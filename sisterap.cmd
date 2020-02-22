@@ -17,7 +17,7 @@ if "%~n1" == "#direct" (
 )
 
 echo.
-echo Simple Stereotool Audio Processor (SISTERAP) 2019.04.06.1
+echo Simple Stereotool Audio Processor (SISTERAP) 2020.02.22.1
   
 set path=%~dp0;%path
 
@@ -126,7 +126,7 @@ set path=%~dp0;%path
   set "stt_src_wav=%temp_wav%"
   if "%stt_src_wav%"=="" set "stt_src_wav=%src_file%"
 
-  "%~dp0stereo_tool_cmd.exe" "%stt_src_wav%" "%temp_procwav%" -s %stereotool_cfg% %license_param%
+  call :sub_run_stereotool "%stt_src_wav%" "%temp_procwav%"
   
   if not "%temp_wav%"=="" del "%temp_wav%"
 
@@ -160,6 +160,13 @@ set path=%~dp0;%path
 
   goto eob
 
+:sub_run_stereotool
+  rem Create file to enable the rendering of short form filename (hide UTF characters):
+  echo>%2
+
+  "%~dp0stereo_tool_cmd.exe" "%~s1" "%~s2" -s %stereotool_cfg% %license_param%
+
+  goto eob
 
 :sub_echo_sts 
 
